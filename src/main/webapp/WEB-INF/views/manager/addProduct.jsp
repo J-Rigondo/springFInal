@@ -75,7 +75,7 @@
 					<div class="col-sm-5">
 						<div class="custom-file">
 							<input type="file" id="productImg" name="productImg"
-								class="custom-file-control" /> <label
+								class="custom-file-control" /> <label id="fileLabel"
 								class="custom-file-label text-left" for="productImg">choose
 								files to upload</label>
 						</div>
