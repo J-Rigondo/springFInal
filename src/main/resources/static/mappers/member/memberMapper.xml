@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.ac.inhatc.mvc.mapper.ProductMapper">
+	<select id="memberLoginPost" resultType="java.lang.Integer">
+		select count(*) as memberCnt from members
+		where id=#{id} and password=#{password}
+	</select>
+	
+	<select id="idCheck" resultType="java.lang.Integer">
+		select count(*) as idCheck from members
+		where id=#{value}
+	</select>
+	
+	<insert id="memberRegisterPost">
+		insert into members
+		values(#{id}, #{password}, #{passwordConfirm}, #{gender}, #{birth}, #{mail}, #{phone}, #{address})
+	</insert>
+</mapper>

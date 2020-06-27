@@ -34,4 +34,16 @@ public class ProductDaoImpl implements ProductDao {
 		return sqlSession.insert("addProduct", PD);
 	}
 
+	@Override
+	public int deleteProductDo(String productId) {
+		
+		return sqlSession.delete("deleteProductDo", productId);
+		
+	}
+
+	@Override
+	public int modifyProduct(ProductDto PD) {		
+		return sqlSession.update("modifyProduct", PD);
+	}
+
 }

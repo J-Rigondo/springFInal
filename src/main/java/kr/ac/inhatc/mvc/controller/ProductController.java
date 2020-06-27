@@ -29,6 +29,37 @@ public class ProductController {
 		return "productList";
 	}
 	
+	@RequestMapping(value= {"/manageProduct"}, method=RequestMethod.GET)
+	public String manageProduct(Model model) throws Exception {
+		List<?> pList = productService.selectProductList();		
+		model.addAttribute("productList", pList);
+		return "manager/manageProduct";
+	}
+	
+	@RequestMapping(value= {"/modifyProduct"}, method=RequestMethod.GET)
+	public String modifyProduct(Model model, @RequestParam("productId") String productId) throws Exception {
+		HashMap<?,?> product = productService.productDetail(productId);
+		
+		model.addAttribute("product",product);
+		return "manager/modifyProduct";
+	}
+	
+	@RequestMapping(value= {"/modifyProductDo"}, method=RequestMethod.POST)
+	public String modifyProductDo(Model model, @ModelAttribute FileDto FD) throws Exception {		
+		productService.modifyProduct(FD);
+		
+		return "redirect:/manageProduct";
+	}	
+	
+	
+	@RequestMapping(value= {"/deleteProductDo"}, method=RequestMethod.GET)
+	public String deleteProductDo(Model model, @RequestParam("productId") String productId) throws Exception {
+		System.out.println(productId);
+		productService.deleteProductDo(productId);
+		
+		return "redirect:/manageProduct";
+	}
+	
 	@RequestMapping(value= {"/productDetail"}, method=RequestMethod.GET)
 	public String productDetail(Model model, @RequestParam("productId") String productId) throws Exception {
 		HashMap<?,?> product = productService.productDetail(productId);

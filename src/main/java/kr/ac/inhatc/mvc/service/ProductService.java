@@ -32,7 +32,8 @@ public class ProductService {
 	public int addProduct(FileDto FD) throws Exception {
 		//get absolute URL
 		final DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
-		Resource resource = defaultResourceLoader.getResource("classpath:static/res/img/");		
+		Resource resource = defaultResourceLoader.getResource("classpath:static/res/img/");	
+		System.out.println(resource.getURI().getPath());
 		String fileUrl = resource.getURI().getPath() + FD.getProductImg().getOriginalFilename();
 		
 		File targetFile = new File(fileUrl);
@@ -60,4 +61,46 @@ public class ProductService {
 		return productDao.addProduct(PD);
 
 	}
+
+	public int deleteProductDo(String productId) {
+		return productDao.deleteProductDo(productId);
+		
+	}
+
+	public int modifyProduct(FileDto FD) throws IOException {
+		ProductDto PD = new ProductDto();
+		
+		PD.setProductId(FD.getProductId()); 
+		PD.setProductName(FD.getProductName()); 
+		PD.setUnitPrice(FD.getUnitPrice());
+		PD.setDescription(FD.getDescription());
+		PD.setManufacturer(FD.getManufacturer());
+		PD.setCategory(FD.getCategory());
+		PD.setUnitStock(FD.getUnitStock());						
+		PD.setProductCondition(FD.getProductCondition());		
+		
+		if(!(FD.getProductImg().getOriginalFilename().equals(""))) {
+			
+			//get absolute URL
+			final DefaultResourceLoader defaultResourceLoader = new DefaultResourceLoader();
+			Resource resource = defaultResourceLoader.getResource("classpath:static/res/img/");		
+			String fileUrl = resource.getURI().getPath() + FD.getProductImg().getOriginalFilename();
+			
+			File targetFile = new File(fileUrl);
+			
+			try {
+				InputStream fileStream = FD.getProductImg().getInputStream();
+				FileUtils.copyInputStreamToFile(fileStream, targetFile);
+				PD.setProductImg(FD.getProductImg().getOriginalFilename());
+				
+			} catch (IOException e) {
+				FileUtils.deleteQuietly(targetFile);
+			}
+		}			
+				
+
+				return productDao.modifyProduct(PD);
+		
+	}
+
 }

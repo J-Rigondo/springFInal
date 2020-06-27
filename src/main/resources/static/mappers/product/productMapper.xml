@@ -5,26 +5,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="kr.ac.inhatc.mvc.mapper.ProductMapper">
 	<select id="selectProductList" resultType="hashmap">
-		select product_id productId, product_name productName,
-			unit_price unitPrice, description, manufacturer, category,
-			product_img productImg, unit_stock unitStock,
-			product_condition productCondition
+		select product_id
+		productId, product_name productName,
+		unit_price unitPrice, description, manufacturer, category,
+		product_img productImg, unit_stock unitStock,
+		product_condition productCondition
 		from product
 	</select>
-	
-	<select id="productDetail" parameterType="String" resultType="hashmap">
+
+	<select id="productDetail" parameterType="String"
+		resultType="hashmap">
 		select product_id productId, product_name productName,
-			unit_price unitPrice, description, manufacturer, category,
-			product_img productImg, unit_stock unitStock,
-			product_condition productCondition
+		unit_price unitPrice, description, manufacturer, category,
+		product_img productImg, unit_stock unitStock,
+		product_condition productCondition
 		from product
 		where product_id = #{value}
 	</select>
-	
+
 	<insert id="addProduct">
 		insert into product
 		values(#{productId},#{productName},#{unitPrice},
 		#{description},#{manufacturer},#{category},#{unitStock},#{productImg},#{productCondition})
 	</insert>
-	
+
+	<update id="modifyProduct">
+		update product
+		set product_name=#{productName},
+		unit_price=#{unitPrice},
+		description=#{description}, manufacturer=#{manufacturer}, category=#{category},
+		unit_stock=#{unitStock},
+		<if test="productImg !=null">
+			product_img=#{productImg},
+		</if>
+		product_condition=#{productCondition}
+		where product_id=#{productId}
+
+	</update>
+
+	<delete id="deleteProductDo">
+		delete from product
+		where product_id=#{value}
+	</delete>
+
 </mapper>
